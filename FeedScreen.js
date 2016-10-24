@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { AppRegistry,  View, Text, BackAndroid, Alert, StyleSheet, Navigator, ListView, TouchableOpacity, TouchableHighlight } from 'react-native';
 
-
+import firebaseConfig from './Credentials';
+import * as firebase from 'firebase';
+//Load credentials
 
 export default class FeedScreen extends Component {
   constructor(props){
@@ -10,6 +12,26 @@ export default class FeedScreen extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {dataSource: ds.cloneWithRows(exampleJson)};
     console.log('construct ran OK')
+    //firebase.initializeApp(firebaseConfig);
+    const provider = new firebase.auth.TwitterAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+    // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+    // You can use these server side with your app's credentials to access the Twitter API.
+    var token = result.credential.accessToken;
+    var secret = result.credential.secret;
+    // The signed-in user info.
+    var user = result.user;
+    // ...
+  }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
   }
 
   _renderRow(_rowData, _navigator, _route){
