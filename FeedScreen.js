@@ -5,6 +5,9 @@ import firebaseConfig from './Credentials';
 import * as firebase from 'firebase';
 //Load credentials
 
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+//var provider = new firebase.auth.TwitterAuthProvider();
+
 export default class FeedScreen extends Component {
   constructor(props){
     super(props)
@@ -77,6 +80,24 @@ export default class FeedScreen extends Component {
   }
 
   render() {
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+  // You can use these server side with your app's credentials to access the Twitter API.
+  var token = 	61519961-bRhAKaebSY6VroIB2dYRSYXk7ffDX5Bz4UAf7T2v9;
+  var secret = ygsMHgAYo2iFdM6UXvN5YGgoq42CZwYFmSEJmug9QjNAu;
+  // The signed-in user info.
+  var user = 61519961;
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
     return (
       //Our navigator
       <Navigator
